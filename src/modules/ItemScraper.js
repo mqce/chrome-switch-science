@@ -76,7 +76,6 @@ export function itemScraperRelated($content){
 
 /*
   商品一覧ページ
-  「サムネイル」モードのみ対応
 */
 class ItemScraperListPage extends ItemScraper {
   getName(){
@@ -106,84 +105,3 @@ export function itemScraperListPage($content){
   const scraper = new ItemScraperListPage($content);
   return scraper.exec();
 }
-
-/*
-  お気に入りページ
-*/
-class ItemScraperBookmark extends ItemScraper {
-  exec(){
-    const item = super.exec();
-    try{
-      item.specificId = this.getSpecificId(); // del
-    }catch(e){
-
-    }
-    return item;
-  }
-  getName(){
-    return this.$content.querySelector('.goods_name_')?.textContent;
-  }
-  getId(){
-    return this.$content.querySelector('input[name="cart_goods"]')?.value;
-  }
-  getUrl(){
-    return this.$content.querySelector('.goods_name_')?.href;
-  }
-  getPrice(){
-    const elems = this.$content.querySelectorAll("font");
-    return this.searchPriceFromElements(elems);
-  }
-  getImage(){
-    return this.$content.querySelector('img')?.src;
-  }
-  getSpecificId(){
-    return this.$content.nextElementSibling.querySelector('input[name="bookmark"]')?.value;
-  }
-}
-export function itemScraperBookmark($content){
-  const scraper = new ItemScraperBookmark($content);
-  return scraper.exec();
-}
-
-/*
-  買い物かごページ
-*/
-class ItemScraperCart extends ItemScraper {
-  exec(){
-    const item = super.exec();
-    try{
-      item.quantitity = this.getQuantity();
-      item.specificId = this.getSpecificId(); // del
-    }catch(e){
-
-    }
-    return item;
-  }
-  getName(){
-    return this.$content.querySelector('a:first-of-type')?.title;
-  }
-  getId(){
-    return this.$content.querySelector('a:first-of-type')?.textContent;
-  }
-  getUrl(){
-    return this.$content.querySelector('a:first-of-type')?.href;
-  }
-  getPrice(){
-    const elems = this.$content.querySelectorAll(".cart_tdcb span");
-    return this.searchPriceFromElements(elems);
-  }
-  getImage(){
-    return this.$content.querySelector('.cart_tdl a>img')?.src;
-  }
-  getSpecificId(){
-    return this.$content.querySelector('input[name*="rowcart"]')?.value;
-  }
-  getQuantity(){
-    return this.$content.querySelector('input[name*="qty"]')?.value;
-  }
-}
-export function itemScraperCart($content){
-  const scraper = new ItemScraperCart($content);
-  return scraper.exec();
-}
-

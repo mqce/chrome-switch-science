@@ -1,24 +1,11 @@
 "use strict";
 
-import axios from 'axios';
 import Storage from './StorageLocal.js'
+import { zenToHan, formatNumber } from '@/modules/Util'
 import { ItemListData } from './ItemListData.js'
 
 const sanitizer = new Sanitizer();// https://developer.mozilla.org/ja/docs/Web/API/Element/setHTML
 const storage = new Storage();
-
-// 全角to半角
-function replaceFullToHalf(str){
-  const half = str.replace(/[！-～]/g, (s)=>{
-    return String.fromCharCode(s.charCodeAt(0) - 0xFEE0);
-  });
-  return half.replace(/”/g, "\"")
-  .replace(/’/g, "'")
-  .replace(/‘/g, "`")
-  .replace(/￥/g, "\\")
-  .replace(/　/g, " ")
-  .replace(/〜/g, "~");
-}
 
 export class ItemListPanel {
   DEFAULT_WIDTH = 400;
@@ -172,9 +159,8 @@ export class ItemListPanel {
   }
   // 商品一件分のHTMLを生成
   #li(item){
-    const formatter = new Intl.NumberFormat('ja-JP');
-    const name = replaceFullToHalf(item.name);
-    const price = formatter.format(item.price);
+    const name = zenToHan(item.name);
+    const price = formatNumber(item.price);
 
     const $li = document.createElement('li');
     const html = `
@@ -201,6 +187,7 @@ export class ItemListPanel {
     return $li;
   }
   async #addSingleItemToCart($elem, id){
+    /*
     $elem.classList.remove('apl-done');
     try {
       const url = '/catalog/cart/cart.aspx';
@@ -221,5 +208,6 @@ export class ItemListPanel {
     } catch (e) {
       console.error(e);
     }
+    */
   }
 }

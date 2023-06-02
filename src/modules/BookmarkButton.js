@@ -4,7 +4,6 @@
  * 商品ページ、一覧ページに表示するブックマーク追加・削除ボタン
  */
 import bookmark from '@/modules/Bookmark'
-import header from '@/modules/Header'
 
 export class BookmarkButton {
   constructor(item) {
@@ -38,7 +37,6 @@ export class BookmarkButton {
       isBusy = true;
       if(this.isBookmarked){
         if(await bookmark.remove(this.item.id)){
-          header.updateBookmarkCount(bookmark.length);
           $elem.classList.remove('active');
           this.isBookmarked = false;
         }else{
@@ -46,7 +44,6 @@ export class BookmarkButton {
         }
       }else{
         if(await bookmark.add(this.item.id)){
-          header.updateBookmarkCount(bookmark.length);
           $elem.classList.add('active');
           this.isBookmarked = true;
         }else{
