@@ -1,0 +1,152 @@
+#header{
+  visibility:hidden;
+}
+
+.header{
+  background:#FDE1F4;
+  border:#ccc 1px solid;
+  margin-bottom:5px;
+  
+  .header-main{
+    box-sizing: border-box;
+    display:flex;
+    height:85px;
+    padding:10px;
+
+    .logo{
+      width: 300px;
+      margin-right:10px;
+    }
+    nav{
+      display:flex;
+      a{
+        display:block;
+        margin:0 4px;
+      }
+      img{
+        width:60px;
+        height:57px;
+      }
+    }
+    .quickorder{
+      flex: 1;
+      justify-content: end;
+      align-items: flex-end;
+      display: flex;
+
+      a{
+        color:inherit;
+      }
+    }
+  }
+  .header-sub{
+    height: 30px;
+    display:flex;
+    align-items: center;
+    border-top:#000066 1px solid;
+
+    nav{
+      display:flex;
+      height: 18px;
+      padding: 0 14px;
+
+      a{
+        display: inline-block;
+      }
+      a:not(:first-child){
+        border-left:#ccc 1px solid;
+        padding-left:6px;
+        margin-left:6px;
+      }
+    }
+  }
+}
+
+.header-slim{
+  border:#ccc 1px solid;
+  margin-bottom:5px;
+
+  a:link,
+  a:visited,
+  a:active{
+    color:#666;
+    text-decoration: none;
+  }
+  a:hover{
+    text-decoration: underline;
+  }
+
+  .header-main{
+    display:flex;
+    align-items: center;
+    justify-content: space-between;
+    padding:10px;
+    
+    .logo{
+      text-decoration: none;
+      font-size:20px;
+      font-weight: 20px;
+    }
+    .header-menu{
+      display:flex;
+      align-items: center;
+
+      input{
+        box-sizing: border-box;
+        height:24px;
+      }
+      input[type="submit"]{
+        font-size:12px;
+      }
+      nav{
+        margin:0 12px 0 30px;
+
+        a{
+          margin-right:10px;
+        }
+      }
+      .header-buttons{
+        display:flex;
+        gap:12px;
+
+        .header-cart-button img{
+          height:32px;
+        }
+        .header-bookmark-button img{
+          height:29px;
+        }
+      }
+    }
+  }
+  .header-sub{
+    padding:5px 10px;
+    background: #f2f2f2;
+    font-size: 11px;
+
+    a{
+      margin-right:7px;
+    }
+
+  }
+}
+
+.header-cart-button,
+.header-bookmark-button{
+  position: relative;
+
+  .header-count:not(:empty){
+    position:absolute;
+    top:-5px;
+    right:-5px;
+    background:#f8f752;
+    color:#000;
+    width:16px;
+    height:16px;
+    border-radius: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: system-ui;
+    font-size: 10px;
+  }
+}

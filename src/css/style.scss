@@ -1,0 +1,139 @@
+@use "larger.scss";
+@use "header.scss";
+
+
+/* お気に入りボタン */
+.cart_table h6,
+.kanren h6{
+  position:relative;
+  padding-right:72px;
+}
+.action-buttons {
+  position:absolute;
+  right:5px;
+  top:2px;
+  display: flex;
+  justify-content: flex-end;
+  gap:8px;
+}
+.cart-button,
+.bookmark-button{
+  width:32px;
+  height:32px;
+  cursor: pointer;
+  &:active{
+    transform: translate(1px, 1px);
+  }
+  background:url(chrome-extension://__MSG_@@extension_id__/img/cart_off.svg) 0 0 / 100% 100% no-repeat;
+  &.active{
+    background-image: url(chrome-extension://__MSG_@@extension_id__/img/cart_on.svg);
+  }
+}
+.bookmark-button{
+  background-image: url(chrome-extension://__MSG_@@extension_id__/img/bookmark_off.svg);
+  &.active{
+    background-image: url(chrome-extension://__MSG_@@extension_id__/img/bookmark_on.svg);
+  }
+}
+/* 関連商品のお気に入りボタン */
+.kanren{
+  .action-buttons{
+    right:0;
+    top:0;
+    gap:8px;
+  }
+  .cart-button,
+  .bookmark-button{
+    width:24px;
+    height:24px;
+  }
+}
+/* 一覧ページのお気に入りボタン */
+.mainframe_ .thumbox{
+  position:relative;
+
+  .action-buttons{
+    right:0;
+    top:0;
+    gap:4px;
+  }
+  .cart-button,
+  .bookmark-button{
+    width:20px;
+    height:20px;
+  }
+}
+
+/* お気に入りページ */
+.bookmark_{
+  position: relative;
+
+  .action-buttons{
+    right:0;
+    top:10px;
+    gap:8px;
+  }
+  .cart-button,
+  .bookmark-button{
+    width:24px;
+    height:24px;
+  }
+
+  .comment_{
+    padding-right:80px;
+  
+    input{
+      width: 274px;
+    }
+  }
+}
+
+
+
+/* 拡大鏡 */
+.cart_table .syosai{
+  position:relative;
+}
+.syosai #imglink{
+  display: block;
+  position: relative;
+  cursor: zoom-in;
+}
+.img-loupe{
+  display:none;
+  position:absolute;
+  left:0;
+  top:0;
+  width:300px;
+  height:300px;
+  pointer-events: none;
+  background-color: #fff;
+  background-repeat: no-repeat;
+  border:#111 1px solid;
+  z-index: 1;
+}
+
+/* 店舗在庫 */
+.detail_stocktitle_{
+  table{
+    width:100%;
+    margin-top:10px;
+    border-collapse: collapse;
+  }
+  th,td{
+    border:#ddd 1px solid;
+    font-weight:normal;
+    text-align: left;
+    padding:5px;
+  }
+  th{
+    background:#eee;
+  }
+  .storeqty_ {
+    text-align: center;
+    font-weight: bold;
+  }
+  .storename_title_{
+    padding:0;
+  }
+}
