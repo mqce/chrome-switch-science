@@ -20,35 +20,27 @@ class ItemScraper {
     return item;
   }
   getName(){
-    return this.$content.querySelector('.cart_table h6')?.textContent;
+    let text = this.$content.querySelector('.product-main .product-title')?.textContent;
+    return text.trim();
   }
   getId(){
-    return this.$content.querySelector('.order_g .valiationlist_>input')?.value;
+    let text = this.$content.querySelector('.product-main .product-sku span')?.textContent;
+    return text.trim();
   }
   getUrl(){
     return location.href;
   }
-  searchPriceFromElements(elems){
+  getPrice(){
     let price = 0;
-    for(let i=0; i<elems.length; i++){
-      const $elem = elems[i];
-      const text = $elem.textContent;
-      const match = text.trim().match(/[¥￥]([0-9,]+)$/);
-      if(match){
-        price = parseInt(match[1].replace(/,/g, ''));
-        break;
-      }
+    const text = this.$content.querySelector('.product-main .price span')?.textContent;
+    const match = text.trim().match(/[¥￥]([0-9,]+)$/);
+    if(match){
+      price = parseInt(match[1].replace(/,/g, ''));
     }
     return price;
   }
-  getPrice(){
-    const elems = this.$content.querySelectorAll(".order_g span");
-    return this.searchPriceFromElements(elems);
-  }
   getImage(){
-    // メイン画像のurlからサムネ画像のurlに変換
-    const url = this.$content.querySelector('#imglink')?.href;
-    return url.replace(/\/goods\/\w\//, '/goods/S/');
+    return this.$content.querySelector('.product-gallery--image')?.dataset.zoom;
   }
 }
 export function itemScraper($content){

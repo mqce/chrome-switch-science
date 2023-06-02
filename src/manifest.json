@@ -1,11 +1,11 @@
 {
   "manifest_version": 3,
-  "name": "akizuki-daisuki",
+  "name": "chrome-switch-science",
   "version": "1.0.0",
-  "description": "秋月電子のサイトを使いやすくするchrome拡張",
+  "description": "Switch Scienceのサイトを使いやすくするchrome拡張",
   "content_scripts": [
     {
-      "matches": ["https://akizukidenshi.com/*"],
+      "matches": ["https://www.switch-science.com/*"],
       "js": ["content.js"],
       "css": ["style.css"],
       "run_at": "document_start"
@@ -21,7 +21,7 @@
       "img/*"
     ],
     "matches": [
-      "https://akizukidenshi.com/*"
+      "https://www.switch-science.com/*"
     ]
   }],
   "icons": {
