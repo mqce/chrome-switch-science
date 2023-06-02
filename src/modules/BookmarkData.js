@@ -7,7 +7,7 @@ import Storage from './StorageLocal.js'
 
 const storage = new Storage();
 
-export class ItemListData {
+export class BookmarkData {
   constructor() {
   }
   async load(){

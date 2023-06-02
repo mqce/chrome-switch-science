@@ -10,17 +10,19 @@ export class BookmarkButton {
     this.item = item;
     this.isBookmarked = false;
   }
-  create(){
-    const $elem = this.#createElem();
+  async create(){
+    const $elem = await this.#createElem();
     this.#addEvent($elem);
     return $elem;
   }
   // ブックマークボタンのDOM
-  #createElem(){
+  async #createElem(){
     const $elem = document.createElement('div');
     $elem.classList.add('bookmark-button');
 
-    if(bookmark.find(this.item.id)){
+    const item = await bookmark.find(this.item);
+    console.log(item);
+    if(item){
       $elem.classList.add('active');
       this.isBookmarked = true;
     }else{
@@ -35,25 +37,18 @@ export class BookmarkButton {
     $elem.addEventListener('click', async e=>{
       if(isBusy) return;// 連打対策
       isBusy = true;
+
+      console.log(this.item);
       if(this.isBookmarked){
-        if(await bookmark.remove(this.item.id)){
-          $elem.classList.remove('active');
-          this.isBookmarked = false;
-        }else{
-          this.#requireLogin();
-        }
+        await bookmark.remove(this.item);
+        $elem.classList.remove('active');
+        this.isBookmarked = false;
       }else{
-        if(await bookmark.add(this.item.id)){
-          $elem.classList.add('active');
-          this.isBookmarked = true;
-        }else{
-          this.#requireLogin();
-        }
+        await bookmark.add(this.item);
+        $elem.classList.add('active');
+        this.isBookmarked = true;
       }
       isBusy = false;
     });
-  }
-  #requireLogin(){
-    alert('ログインが必要です');
   }
 }

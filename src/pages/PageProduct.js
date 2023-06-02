@@ -41,9 +41,9 @@ export class PageProduct {
     })
   }
 
-  appendBookmarkButton($parent, item){
+  async appendBookmarkButton($parent, item){
     const button = new BookmarkButton(item);
-    const $button = button.create();
+    const $button = await button.create();
     $parent.appendChild($button);
   }
 }
