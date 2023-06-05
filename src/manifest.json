@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "chrome-switch-science",
+  "name": "Switch Science (unofficial)",
   "version": "1.0.0",
   "description": "Switch Scienceのサイトを使いやすくするchrome拡張",
   "content_scripts": [
