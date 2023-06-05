@@ -10,24 +10,24 @@ const storage = new Storage();
 export class Bookmark {
   DEFAULT_WIDTH = 400;
   DEFAULT_HEIGHT = 'auto';
-  CLASSNAME = 'akizuki-permanent-list';
+  CLASSNAME = 'ssbm';
   html = `
   <header>
-    <div class="apl-header-icon"></div>
-    <div class="apl-header-length"></div>
+    <div class="ssbm-header-icon"></div>
+    <div class="ssbm-header-length"></div>
   </header>
-  <div class="apl-body">
+  <div class="ssbm-body">
     <form method="POST" action="/catalog/cart/cart.aspx">
       <input type="hidden" name="input_type" value="True">
-      <div class="apl-list">
+      <div class="ssbm-list">
         <ul></ul>
       </div>
-      <div class="apl-empty">
-        <span class="apl-add-icon"></span>をクリックしてブックマーク
+      <div class="ssbm-empty">
+        <span class="ssbm-add-icon"></span>をクリックしてブックマーク
       </div>
       <footer>
-        <button type="button" class="apl-clear-button">クリア</button>
-        <button type="submit" class="apl-cart-button">全てかごに入れる</button>
+        <button type="button" class="ssbm-clear-button">クリア</button>
+        <button type="submit" class="ssbm-cart-button">全てかごに入れる</button>
       </footer>
     </form>
   </div>
@@ -81,24 +81,24 @@ export class Bookmark {
     this.$elem = document.createElement('div');
     this.$elem.classList.add(this.CLASSNAME);
     this.$elem.setHTML(this.html, sanitizer);
-    this.$body = this.$elem.querySelector('.apl-body');
+    this.$body = this.$elem.querySelector('.ssbm-body');
     this.#addEvents();
   }
   #update(){
     // 件数バッジを更新
-    this.$elem.querySelector('.apl-header-length').textContent = this.list.length;
+    this.$elem.querySelector('.ssbm-header-length').textContent = this.list.length;
 
     // リストが空の場合
     if(this.list.length === 0){
       // デフォルトのサイズに戻す
       this.#resetBodySize();
-      this.$elem.classList.add('apl-is-empty');
+      this.$elem.classList.add('ssbm-is-empty');
     }else{
-      this.$elem.classList.remove('apl-is-empty');
+      this.$elem.classList.remove('ssbm-is-empty');
     }
 
     // リストを更新
-    const $ul = this.$elem.querySelector('.apl-list>ul');
+    const $ul = this.$elem.querySelector('.ssbm-list>ul');
     $ul.innerHTML = "";
     this.list.map(item=>{
       const $li = this.#li(item);
@@ -128,11 +128,11 @@ export class Bookmark {
   #addEvents(){
     // パネル開閉
     this.$elem.querySelector('header').addEventListener('click', e => {
-      this.$body.classList.toggle('apl-is-active');
+      this.$body.classList.toggle('ssbm-is-active');
     });
 
     // リストをクリア
-    this.$elem.querySelector('.apl-clear-button').addEventListener('click', async e=>{
+    this.$elem.querySelector('.ssbm-clear-button').addEventListener('click', async e=>{
       if(confirm('リストをクリアします')){
         await this.clear();
         return true;
@@ -142,7 +142,7 @@ export class Bookmark {
     });
 
     // カートに入れる
-    this.$elem.querySelector('.apl-cart-button').addEventListener('click', e => {
+    this.$elem.querySelector('.ssbm-cart-button').addEventListener('click', e => {
       if(confirm('全てカートに入れます')){
         return true;
       }else{
@@ -152,7 +152,7 @@ export class Bookmark {
 
     this.#attachResizeEvent();
   }
-  // apl-bodyのcss-resizeを拾う
+  // ssbm-bodyのcss-resizeを拾う
   #attachResizeEvent(){
     const $elem = this.$body;
     const observer = new MutationObserver(() => {
@@ -173,29 +173,29 @@ export class Bookmark {
     const html = `
     <input type="hidden" name="goods" value="${item.id}">
     <input type="hidden" name="${item.id}_qty" value="1">
-    <div class="apl-item-remove" title="削除"></div>
-    <img class="apl-item-thumb" src="${item.image}">
-    <a href="${item.url}" class="apl-item-name" title="${name}">${name}</a>
-    <span class="apl-item-price">&yen;${price}</span>
-    <span class="apl-item-cart" title="カートに入れる"></span>
+    <div class="ssbm-item-remove" title="削除"></div>
+    <img class="ssbm-item-thumb" src="${item.image}">
+    <a href="${item.url}" class="ssbm-item-name" title="${name}">${name}</a>
+    <span class="ssbm-item-price">&yen;${price}</span>
+    <span class="ssbm-item-cart" title="カートに入れる"></span>
     `;
     $li.setHTML(html, sanitizer);
   
     // 削除ボタン
-    $li.querySelector('.apl-item-remove').addEventListener('click', async e=>{
+    $li.querySelector('.ssbm-item-remove').addEventListener('click', async e=>{
       this.list = await this.data.remove(item.id);
       this.#update();
     });
 
     // カートに入れるボタン
-    $li.querySelector('.apl-item-cart').addEventListener('click', async e=>{
+    $li.querySelector('.ssbm-item-cart').addEventListener('click', async e=>{
       this.#addSingleItemToCart(e.target, item.id);
     });  
     return $li;
   }
   async #addSingleItemToCart($elem, id){
     /*
-    $elem.classList.remove('apl-done');
+    $elem.classList.remove('ssbm-done');
     try {
       const url = '/catalog/cart/cart.aspx';
       const data = new FormData();
@@ -205,7 +205,7 @@ export class Bookmark {
 
       // カートに入れた動きをつける
       if(response.status == 200){
-        $elem.classList.add('apl-done');
+        $elem.classList.add('ssbm-done');
       }
 
       // カートページにいる場合はリロードする

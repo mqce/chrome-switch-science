@@ -15,7 +15,7 @@ async function main(){
   await config.load();
   console.log(config.items);
 
-  showBookmarkPanel();
+  showBookmark();
 
   // product page
   if(document.body.classList.contains('template-product')){
@@ -30,10 +30,12 @@ async function main(){
   }
 }
 
-async function showBookmarkPanel(){
+async function showBookmark(){
+  // カートの左にブックマークアイコンを挿入
   const $parent = document.querySelector('.site-header-right');
-  if($parent){
+  const $cart = $parent.querySelector('.site-header-cart');
+  if($parent, $cart){
     const $elem = await bookmark.load();
-    $parent.appendChild($elem);
+    $parent.insertBefore($elem, $cart);
   }
 }
