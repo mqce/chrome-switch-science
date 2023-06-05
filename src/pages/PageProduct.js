@@ -1,7 +1,7 @@
 "use strict";
 
 import { BookmarkButton } from '@/modules/BookmarkButton'
-import { itemScraper, itemScraperRelated } from '@/modules/ItemScraper'
+import { itemScraper, itemScraperGridItems } from '@/modules/ItemScraper'
 
 export class PageProduct {
   constructor() {
@@ -48,7 +48,7 @@ export class PageProduct {
   #addButtonsTo($items){
     $items.forEach($item => {
       // 商品データをscrape
-      const item = itemScraperRelated($item);
+      const item = itemScraperGridItems($item);
       if(item){
         this.#appendBookmarkButton($item, item);
       }

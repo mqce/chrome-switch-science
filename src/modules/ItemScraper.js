@@ -49,9 +49,9 @@ export function itemScraper($content){
 }
 
 /*
-  商品ページ下部の「関連商品」や「おすすめ」に出てくる商品
+  商品ページ下部の「関連商品」や「おすすめ」、一覧ページに出てくる商品
 */
-class ItemScraperRelated extends ItemScraper {
+class ItemScraperGridItems extends ItemScraper {
   getName(){
     return this.$content.querySelector('.productitem--title a')?.textContent;
   }
@@ -67,39 +67,7 @@ class ItemScraperRelated extends ItemScraper {
     return this.$content.querySelector('.productitem--image img')?.src;
   }
 }
-export function itemScraperRelated($content){
-  const scraper = new ItemScraperRelated($content);
-  return scraper.exec();
-}
-
-/*
-  商品一覧ページ
-*/
-class ItemScraperListPage extends ItemScraper {
-  getName(){
-    return this.$content.querySelector('.thumbox_pc .goods_name_')?.textContent;
-  }
-  getId(){
-    let id = '';
-    const src = this.$content.querySelector('.thumbox_img img')?.src;
-    const match = src.match(/\/([^\/]+)\.\w+?$/);
-    if(match){
-      id = match[1];
-    }
-    return id;
-  }
-  getUrl(){
-    return this.$content.querySelector('.goods_name_')?.href;
-  }
-  getPrice(){
-    const elems = this.$content.querySelectorAll(".f14b");
-    return this.searchPriceFromElements(elems);
-  }
-  getImage(){
-    return this.$content.querySelector('.thumbox_img img')?.src;
-  }
-}
-export function itemScraperListPage($content){
-  const scraper = new ItemScraperListPage($content);
+export function itemScraperGridItems($content){
+  const scraper = new ItemScraperGridItems($content);
   return scraper.exec();
 }

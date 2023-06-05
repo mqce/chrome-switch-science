@@ -5,16 +5,13 @@ import '@/css/style.scss';
 import config from '@/modules/Config'
 import bookmark from '@/modules/Bookmark'
 import { PageProduct } from '@/pages/PageProduct'
-/*
-import { PageList } from '@/pages/PageList'
-*/
+import { PageCollection } from '@/pages/PageCollection'
 
 window.addEventListener('DOMContentLoaded', (event) => {
   main();
 });
 
 async function main(){
-
   await config.load();
   console.log(config.items);
 
@@ -26,13 +23,11 @@ async function main(){
     pageProduct.init();
   }
 
-  /*
-  // 一覧ページ
+  // collection page
   if(document.body.classList.contains('template-collection')){
-    const pageList = new PageList();
-    pageList.init();
+    const pageCollection = new PageCollection();
+    pageCollection.init();
   }
-  */
 }
 
 async function showBookmarkPanel(){
