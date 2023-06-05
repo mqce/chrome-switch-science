@@ -20,11 +20,11 @@ class ItemScraper {
     return item;
   }
   getName(){
-    let text = this.$content.querySelector('.product-title')?.textContent;
+    const text = this.$content.querySelector('.product-title')?.textContent;
     return text.trim();
   }
   getId(){
-    let text = this.$content.querySelector('.product-sku span')?.textContent;
+    const text = this.$content.querySelector('.product-sku span')?.textContent;
     return text.trim();
   }
   getUrl(){
@@ -53,13 +53,14 @@ export function itemScraper($content){
 */
 class ItemScraperGridItems extends ItemScraper {
   getName(){
-    return this.$content.querySelector('.productitem--title a')?.textContent;
+    const text = this.$content.querySelector('.productitem--title a')?.textContent;
+    return text.trim();
   }
   getId(){
     let id = '';
     const url = this.$content.querySelector('.productitem--title a')?.href;
     if(url){
-      id = url.replace(/^.+\/(.+)$/, '$1');
+      id = url.replace(/^.+products\/(\d+)/, '$1');
     }
     return id;
   }
