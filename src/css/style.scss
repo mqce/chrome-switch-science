@@ -19,30 +19,14 @@
   }
 }
 
-/* 関連商品のお気に入りボタン */
-.kanren{
+/* 関連商品、おすすめ、閲覧履歴のお気に入りボタン */
+.productgrid--item{
   .bookmark-button{
-    right:0;
-    top:0;
-    width:24px;
-    height:24px;
-  }
-}
-/* 一覧ページのお気に入りボタン */
-.mainframe_ .thumbox{
-  position:relative;
-  .bookmark-button{
-    width:20px;
-    height:20px;
-  }
-}
-
-/* お気に入りページ */
-.bookmark_{
-  position: relative;
-  .bookmark-button{
-    width:24px;
-    height:24px;
+    left: auto;
+    top: auto;
+    right: 4px;
+    bottom: 8px;
+    z-index: 100;
   }
 }
 

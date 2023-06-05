@@ -8,40 +8,70 @@ export class PageProduct {
   }
   init(){
     // 商品データをscrape
-    const item = itemScraper(document.body);
+    const $item = document.querySelector('.product--container');
+    if($item){
+      const item = itemScraper($item);
+      console.log(item);
 
-    console.log(item);
+      // ブックマークに追加するボタンを挿入
+      this.#addButton(item);
 
-    // ブックマークに追加するボタンを挿入
-    this.addButton(item);
-
-    // ブックマークに追加するボタンを挿入(関連商品)
-    // this.addButtonsRelated();
-
-  }
-  // SKUの横にボタンを追加
-  addButton(item){
-    if(item){
-      const $parent = document.querySelector('.product-main .product-sku');
-      this.appendBookmarkButton($parent, item);
+      // 関連商品、おすすめ、閲覧履歴にボタンを追加
+      this.#addButtonsRelated();
     }
   }
-  // 関連商品にボタンを追加
-  addButtonsRelated(){
-    const $items = document.querySelectorAll('.kanren form>table');
+  // SKUの横にボタンを追加
+  #addButton(item){
+    if(item){
+      const $parent = document.querySelector('.product-main .product-sku');
+      this.#appendBookmarkButton($parent, item);
+    }
+  }
+
+  // 関連商品、おすすめ、閲覧履歴にボタンを追加
+  #addButtonsRelated(){
+    let $parent = null;
+
+    // 関連商品
+    const $items = document.querySelectorAll('.product-section--content .productgrid--item');
+    this.#addButtonsTo($items);
+
+    // おすすめ
+    $parent = document.querySelector('.product-recommendations--section');
+    this.#addButtonsAfterMutation($parent);
+    
+    // 閲覧履歴
+    $parent = document.querySelector('.product-recently-viewed__content');
+    this.#addButtonsAfterMutation($parent);
+  }
+
+  #addButtonsTo($items){
     $items.forEach($item => {
       // 商品データをscrape
       const item = itemScraperRelated($item);
-
-      // 追加ボタンを描画
       if(item){
-        const $parent = $item.querySelector('h6');
-        this.appendBookmarkButton($parent, item);
+        this.#appendBookmarkButton($item, item);
       }
     })
   }
 
-  async appendBookmarkButton($parent, item){
+  // 後から動的に追加される要素にボタンを追加
+  #addButtonsAfterMutation($parent){
+    const observer = new MutationObserver(records => {
+      observer.disconnect();
+      // DOMが追加されたらボタンを追加
+      const $items = $parent.querySelectorAll('.productgrid--item');
+      this.#addButtonsTo($items);
+    });
+    // DOM変更を監視
+    observer.observe($parent, {
+      childList: true,
+      subtree : true,
+    });
+  }
+  
+
+  async #appendBookmarkButton($parent, item){
     const button = new BookmarkButton(item);
     const $button = await button.create();
     $parent.appendChild($button);

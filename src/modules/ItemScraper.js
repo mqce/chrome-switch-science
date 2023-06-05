@@ -20,19 +20,19 @@ class ItemScraper {
     return item;
   }
   getName(){
-    let text = this.$content.querySelector('.product-main .product-title')?.textContent;
+    let text = this.$content.querySelector('.product-title')?.textContent;
     return text.trim();
   }
   getId(){
-    let text = this.$content.querySelector('.product-main .product-sku span')?.textContent;
+    let text = this.$content.querySelector('.product-sku span')?.textContent;
     return text.trim();
   }
   getUrl(){
-    return location.href;
+    return '//www.switch-science.com/products/' + this.getId();
   }
   getPrice(){
     let price = 0;
-    const text = this.$content.querySelector('.product-main .price span')?.textContent;
+    const text = this.$content.querySelector('.price span')?.textContent;
     const match = text.trim().match(/[¥￥]([0-9,]+)$/);
     if(match){
       price = parseInt(match[1].replace(/,/g, ''));
@@ -49,24 +49,22 @@ export function itemScraper($content){
 }
 
 /*
-  商品ページ下部の「関連商品」や「この商品を購入した方は～」に出てくる商品
+  商品ページ下部の「関連商品」や「おすすめ」に出てくる商品
 */
 class ItemScraperRelated extends ItemScraper {
   getName(){
-    return this.$content.querySelector('h6 a')?.textContent;
+    return this.$content.querySelector('.productitem--title a')?.textContent;
   }
   getId(){
-    return this.$content.querySelector('input[name="goods"]')?.value;
-  }
-  getUrl(){
-    return this.$content.querySelector('.syosai a')?.href;
-  }
-  getPrice(){
-    const elems = this.$content.querySelectorAll(".f14b");
-    return this.searchPriceFromElements(elems);
+    let id = '';
+    const url = this.$content.querySelector('.productitem--title a')?.href;
+    if(url){
+      id = url.replace(/^.+\/(.+)$/, '$1');
+    }
+    return id;
   }
   getImage(){
-    return this.$content.querySelector('.syosai img')?.src;
+    return this.$content.querySelector('.productitem--image img')?.src;
   }
 }
 export function itemScraperRelated($content){

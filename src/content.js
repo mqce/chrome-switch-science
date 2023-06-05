@@ -36,6 +36,9 @@ async function main(){
 }
 
 async function showBookmarkPanel(){
-  const $elem = await bookmark.load();
-  document.body.appendChild($elem);
+  const $parent = document.querySelector('.site-header-right');
+  if($parent){
+    const $elem = await bookmark.load();
+    $parent.appendChild($elem);
+  }
 }
