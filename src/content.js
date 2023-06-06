@@ -4,8 +4,6 @@ import '@/css/style.scss';
 
 import config from '@/modules/Config'
 import bookmark from '@/modules/Bookmark'
-import { PageProduct } from '@/pages/PageProduct'
-import { PageCollection } from '@/pages/PageCollection'
 import { BookmarkButton } from '@/modules/BookmarkButton'
 import { itemScraper, itemScraperGridItems } from '@/modules/ItemScraper'
 
@@ -57,7 +55,7 @@ function addBookmarkButtons(){
   }
 
   // 一覧ページ、商品ページの関連商品
-  $items = document.querySelectorAll('.product-section--content .productgrid--item');
+  $items = document.querySelectorAll('.productgrid--item');
   if($items){
     addButtonsProductGrid($items);
   }
