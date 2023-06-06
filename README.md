@@ -1,5 +1,6 @@
 # Chrome Extension for Switch Science 
-スイッチサイエンスのECサイト(https://www.switch-science.com/)を使いやすくするchrome拡張(非公式)
+[スイッチサイエンスのECサイト](https://www.switch-science.com/)
+を使いやすくするchrome拡張(非公式)
 
 ## Chrome拡張のインストール
 [chrome store](https://chrome.google.com/webstore/detail/akizuki-daisuki/hjdhpmpkbmcckegkppojhmhbgbmnlbgd?hl=ja&authuser=0)
