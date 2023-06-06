@@ -57,12 +57,12 @@
     align-items: center;
     width:46px;
     height:46px;
+    cursor: pointer;
 
     .ssbm-header-icon{
       background:url(chrome-extension://__MSG_@@extension_id__/img/bookmarks.svg) 0 0 / 100% 100% no-repeat;
       width:30px;
       height:30px;
-      cursor: pointer;
     }
 
     .ssbm-header-length{
