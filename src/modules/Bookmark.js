@@ -1,7 +1,7 @@
 "use strict";
 
 import Storage from './StorageLocal.js'
-import { zenToHan, formatNumber } from '@/modules/Util'
+import { formatNumber } from '@/modules/Util'
 import { BookmarkData } from '@/modules/BookmarkData'
 
 const sanitizer = new Sanitizer();// https://developer.mozilla.org/ja/docs/Web/API/Element/setHTML
@@ -166,16 +166,14 @@ export class Bookmark {
   }
   // 商品一件分のHTMLを生成
   #li(item){
-    const name = zenToHan(item.name);
     const price = formatNumber(item.price);
-
     const $li = document.createElement('li');
     const html = `
     <input type="hidden" name="goods" value="${item.id}">
     <input type="hidden" name="${item.id}_qty" value="1">
     <div class="ssbm-item-remove" title="削除"></div>
     <img class="ssbm-item-thumb" src="${item.image}">
-    <a href="${item.url}" class="ssbm-item-name" title="${name}">${name}</a>
+    <a href="${item.url}" class="ssbm-item-name" title="${item.name}">${item.name}</a>
     <span class="ssbm-item-price">&yen;${price}</span>
     <span class="ssbm-item-cart" title="カートに入れる"></span>
     `;
@@ -183,13 +181,13 @@ export class Bookmark {
   
     // 削除ボタン
     $li.querySelector('.ssbm-item-remove').addEventListener('click', async e=>{
-      this.list = await this.data.remove(item.id);
+      this.list = await this.data.remove(item);
       this.#update();
     });
 
     // カートに入れるボタン
     $li.querySelector('.ssbm-item-cart').addEventListener('click', async e=>{
-      this.#addSingleItemToCart(e.target, item.id);
+      this.#addSingleItemToCart(e.target, item);
     });  
     return $li;
   }
