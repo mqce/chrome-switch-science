@@ -55,9 +55,9 @@ export default async function initTopage(){
     addButtons($items, jsonString);
   }
 
-  const $parent = document.querySelector('[data-pf-type="ProductList"]');
-  if($parent){
-    addButtonsAfterMutation($parent);
+  const $parents = document.querySelectorAll('[data-pf-type="ProductList"]');
+  if($parents){
+    $parents.forEach($parent => addButtonsAfterMutation($parent));
   }
 }
 
