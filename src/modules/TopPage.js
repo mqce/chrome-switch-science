@@ -81,7 +81,8 @@ async function addButtons($items, jsonString){
         sku: data[id].handle,
         price: data[id].variants[0].price / 100,
         url: data[id].url,
-        image: data[id].featured_image
+        image: data[id].featured_image,
+        available: data[id].variants[0].available
       }
       appendBookmarkButton($item, item);
     }catch(e){}
