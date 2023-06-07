@@ -43,3 +43,6 @@ export class BookmarkData {
     return empty;
   }
 }
+
+const bookmarkData = new BookmarkData();
+export default bookmarkData;
