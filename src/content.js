@@ -60,12 +60,11 @@ function addBookmarkButtons(){
     addButtonsAfterMutation($parent);
   }
   
-  /* ※閲覧履歴は商品IDが出力されないのでボタンを置かない
+  // 閲覧履歴
   $parent = document.querySelector('.product-recently-viewed__content');
   if($parent){
     addButtonsAfterMutation($parent);
   }
-  */
 }
 
 // 商品詳細ページにボタンを表示

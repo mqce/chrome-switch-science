@@ -9,7 +9,7 @@ class ItemScraper {
     try{
       item = {
         name : this.getName(),
-        id : this.getId(),
+        // id : this.getId(),
         sku : this.getSku(),
         url : this.getUrl(),
         price : this.getPrice(),
@@ -24,9 +24,11 @@ class ItemScraper {
     const text = this.$content.querySelector('.product-title').textContent;
     return text.trim();
   }
+  /*
   getId(){
     return this.$content.querySelector('.variants-ui').value;
   }
+  */
   getSku(){
     const text = this.$content.querySelector('.product-sku span').textContent;
     return text.trim();
@@ -60,9 +62,11 @@ class ItemScraperGridItems extends ItemScraper {
     const text = this.$content.querySelector('.productitem--title a')?.textContent;
     return text.trim();
   }
+  /*
   getId(){
     return this.$content.querySelector('[data-quick-buy]').dataset.variantId;
   }
+  */
   getSku(){
     let sku = '';
     const url = this.$content.querySelector('.productitem--title a')?.href;
