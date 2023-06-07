@@ -71,7 +71,7 @@ class ItemScraperGridItems extends ItemScraper {
     let sku = '';
     const url = this.$content.querySelector('.productitem--title a')?.href;
     if(url){
-      sku = url.replace(/^.+products\/(\d+)/, '$1');
+      sku = url.replace(/^.+products\/(\d+).*?$/, '$1');
     }
     return sku;
   }
