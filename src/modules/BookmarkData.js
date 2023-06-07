@@ -18,22 +18,22 @@ export class BookmarkData {
     await storage.set('list', list);
     return list;
   }
-  async find(id){
+  async find(item){
     const list = await this.load();
-    return list.find(item => item.id === id);
+    return list.find(x => x.sku === item.sku);
   }
   async add(item){
     const list = await this.load();
-    const found = await this.find(item.id);
+    const found = await this.find(item);
     if(!found){
       list.push(item);
       await this.save(list);
     }
     return list;
   }
-  async remove(id){
+  async remove(item){
     let list = await this.load();
-    list = list.filter(item => item.id !== id);
+    list = list.filter(x => x.sku !== item.sku);
     await this.save(list);
     return list;
   }

@@ -70,11 +70,11 @@ export class Bookmark {
     this.#update();
   }
   async remove(item){
-    this.list = await this.data.remove(item.id);
+    this.list = await this.data.remove(item);
     this.#update();
   }
   async find(item){
-    return this.data.find(item.id);
+    return this.data.find(item);
   }
   #init(){
     // DOMを初期化
