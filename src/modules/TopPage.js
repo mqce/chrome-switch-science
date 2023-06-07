@@ -41,7 +41,7 @@ function requestPageflyData(){
     }, false);
     window.postMessage(
       { type: 'FROM_CONTENT' },
-      '*'
+      'https://www.switch-science.com'
     );
   });
 
