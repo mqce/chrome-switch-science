@@ -175,7 +175,12 @@
   }
   .ssbm-item-price{
     width:60px;
+    white-space: nowrap;
     text-align: right;
+    text-decoration : line-through;
+  }
+  .ssbm-active{
+    text-decoration: none;
   }
   .ssbm-item-cart{
     display:inline-block;

@@ -14,6 +14,7 @@ class ItemScraper {
         url : this.getUrl(),
         price : this.getPrice(),
         image : this.getImage(),
+        available : this.getAvailability(),
       };
     }catch(e){
       console.error(e);
@@ -38,7 +39,7 @@ class ItemScraper {
   }
   getPrice(){
     let price = 0;
-    const text = this.$content.querySelector('.price span').textContent;
+    const text = this.$content.querySelector('.price__current .money').textContent;
     const match = text.trim().match(/[¥￥]([0-9,]+)$/);
     if(match){
       price = parseInt(match[1].replace(/,/g, ''));
@@ -47,6 +48,11 @@ class ItemScraper {
   }
   getImage(){
     return this.$content.querySelector('.product-gallery--image').dataset.zoom;
+  }
+  getAvailability(){
+    // soldout表記が無い→available
+    const $item = this.$content.querySelector('.productitem__badge--soldout');
+    return $item === null;
   }
 }
 export function itemScraper($content){

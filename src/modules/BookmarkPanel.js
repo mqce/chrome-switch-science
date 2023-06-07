@@ -150,7 +150,7 @@ export class BookmarkPanel {
   }
   // 商品一件分のHTMLを生成
   #li(item){
-    const price = formatNumber(item.price);
+    const active = item.available ? 'ssbm-active':'';
     const $li = document.createElement('li');
     const html = `
     <input type="hidden" name="goods" value="${item.id}">
@@ -158,7 +158,7 @@ export class BookmarkPanel {
     <div class="ssbm-item-remove" title="削除"></div>
     <img class="ssbm-item-thumb" src="${item.image}">
     <a href="${item.url}" class="ssbm-item-name" title="${item.name}">${item.name}</a>
-    <span class="ssbm-item-price">&yen;${price}</span>
+    <span class="ssbm-item-price ${active}">&yen;${formatNumber(item.price)}</span>
     <span class="ssbm-item-cart" title="カートに入れる"></span>
     `;
     $li.setHTML(html, sanitizer);
