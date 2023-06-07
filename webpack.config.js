@@ -24,6 +24,7 @@ var options = {
   mode: process.env.NODE_ENV || "development",
   entry: {
     content: path.join(__dirname, "src", "content.js"),
+    embed: path.join(__dirname, "src", "embed.js"),
     options: path.join(__dirname, "src", "options.js")
   },
   output: {

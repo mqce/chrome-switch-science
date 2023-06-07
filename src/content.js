@@ -4,10 +4,11 @@ import '@/css/style.scss';
 
 import config from '@/modules/Config'
 import bookmark from '@/modules/Bookmark'
+import initTopage from '@/modules/TopPage'
 import { BookmarkButton } from '@/modules/BookmarkButton'
 import { itemScraper, itemScraperGridItems } from '@/modules/ItemScraper'
 
-window.addEventListener('DOMContentLoaded', (event) => {
+window.addEventListener('DOMContentLoaded', () => {
   main();
 });
 
@@ -15,27 +16,20 @@ async function main(){
   await config.load();
   console.log(config.items);
 
+  // toppage
+  if(document.body.classList.contains('template-index')){
+    initTopage();
+  }
+
+  // header
   showBookmarkIcon();
 
+  // bookmark buttons
   addBookmarkButtons();
-
-  /*
-  // product page
-  if(document.body.classList.contains('template-product')){
-    const pageProduct = new PageProduct();
-    pageProduct.init();
-  }
-
-  // collection page
-  if(document.body.classList.contains('template-collection')){
-    const pageCollection = new PageCollection();
-    pageCollection.init();
-  }
-  */
 }
 
+// カートの左にブックマークアイコンを挿入
 async function showBookmarkIcon(){
-  // カートの左にブックマークアイコンを挿入
   const $parent = document.querySelector('.site-header-right');
   const $cart = $parent.querySelector('.site-header-cart');
   if($parent && $cart){
@@ -44,10 +38,9 @@ async function showBookmarkIcon(){
   }
 }
 
-
 function addBookmarkButtons(){
   let $item, $items, $parent;
-  
+
   // 商品詳細ページ
   $item = document.querySelector('.product--container');
   if($item){
@@ -60,17 +53,19 @@ function addBookmarkButtons(){
     addButtonsProductGrid($items);
   }
 
+
   // おすすめ
   $parent = document.querySelector('.product-recommendations--section');
   if($parent){
     addButtonsAfterMutation($parent);
   }
   
-  // 閲覧履歴
+  /* ※閲覧履歴は商品IDが出力されないのでボタンを置かない
   $parent = document.querySelector('.product-recently-viewed__content');
   if($parent){
     addButtonsAfterMutation($parent);
   }
+  */
 }
 
 // 商品詳細ページにボタンを表示
@@ -85,10 +80,9 @@ function addButtonProductPage($item){
   }
 }
 
-// 関連商品にボタンを表示
+// 一覧と関連商品にボタンを表示
 function addButtonsProductGrid($items){
   $items.forEach($item => {
-    // 商品データをscrape
     const item = itemScraperGridItems($item);
     if(item){
       appendBookmarkButton($item, item);

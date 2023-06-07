@@ -19,10 +19,18 @@
   }
 }
 
+/* トップページ */
+.pf-product-form{
+  position: relative;
+  .bookmark-button{
+    top: 4px;
+    right: 4px;
+  }
+}
+
 /* 関連商品、おすすめ、閲覧履歴のお気に入りボタン */
 .productgrid--item{
   .bookmark-button{
-    left: auto;
     top: auto;
     right: 4px;
     bottom: 8px;

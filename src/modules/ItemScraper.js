@@ -10,29 +10,33 @@ class ItemScraper {
       item = {
         name : this.getName(),
         id : this.getId(),
+        sku : this.getSku(),
         url : this.getUrl(),
         price : this.getPrice(),
         image : this.getImage(),
       };
     }catch(e){
-
+      console.error(e);
     }
     return item;
   }
   getName(){
-    const text = this.$content.querySelector('.product-title')?.textContent;
+    const text = this.$content.querySelector('.product-title').textContent;
     return text.trim();
   }
   getId(){
-    const text = this.$content.querySelector('.product-sku span')?.textContent;
+    return this.$content.querySelector('.variants-ui').value;
+  }
+  getSku(){
+    const text = this.$content.querySelector('.product-sku span').textContent;
     return text.trim();
   }
   getUrl(){
-    return '//www.switch-science.com/products/' + this.getId();
+    return '/products/' + this.getSku();
   }
   getPrice(){
     let price = 0;
-    const text = this.$content.querySelector('.price span')?.textContent;
+    const text = this.$content.querySelector('.price span').textContent;
     const match = text.trim().match(/[¥￥]([0-9,]+)$/);
     if(match){
       price = parseInt(match[1].replace(/,/g, ''));
@@ -40,7 +44,7 @@ class ItemScraper {
     return price;
   }
   getImage(){
-    return this.$content.querySelector('.product-gallery--image')?.dataset.zoom;
+    return this.$content.querySelector('.product-gallery--image').dataset.zoom;
   }
 }
 export function itemScraper($content){
@@ -57,12 +61,15 @@ class ItemScraperGridItems extends ItemScraper {
     return text.trim();
   }
   getId(){
-    let id = '';
+    return this.$content.querySelector('[data-quick-buy]').dataset.variantId;
+  }
+  getSku(){
+    let sku = '';
     const url = this.$content.querySelector('.productitem--title a')?.href;
     if(url){
-      id = url.replace(/^.+products\/(\d+)/, '$1');
+      sku = url.replace(/^.+products\/(\d+)/, '$1');
     }
-    return id;
+    return sku;
   }
   getImage(){
     return this.$content.querySelector('.productitem--image img')?.src;

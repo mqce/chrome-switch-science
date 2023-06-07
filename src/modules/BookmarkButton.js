@@ -21,7 +21,6 @@ export class BookmarkButton {
     $elem.classList.add('bookmark-button');
 
     const item = await bookmark.find(this.item);
-    console.log(item);
     if(item){
       $elem.classList.add('active');
       this.isBookmarked = true;
