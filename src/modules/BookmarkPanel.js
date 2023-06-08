@@ -15,8 +15,7 @@ const html = `
   <div class="ssbm-header-length"></div>
 </header>
 <div class="ssbm-body">
-  <form method="POST" action="/catalog/cart/cart.aspx">
-    <input type="hidden" name="input_type" value="True">
+  <div>
     <div class="ssbm-list">
       <ul></ul>
     </div>
@@ -24,10 +23,10 @@ const html = `
       <span class="ssbm-add-icon"></span>をクリックしてブックマーク
     </div>
     <footer>
-      <button type="button" class="ssbm-clear-button">クリア</button>
-      <button type="submit" class="ssbm-cart-button">全てかごに入れる</button>
+      <button class="ssbm-clear-button">クリア</button>
+      <button class="ssbm-cart-button">更新</button>
     </footer>
-  </form>
+  </div>
 </div>
 `;
 
@@ -125,9 +124,14 @@ export class BookmarkPanel {
       }
     });
 
-    // カートに入れる
-    this.$elem.querySelector('.ssbm-cart-button').addEventListener('click', e => {
-      if(confirm('全てカートに入れます')){
+    // 更新
+    let isBusy = false;
+    this.$elem.querySelector('.ssbm-cart-button').addEventListener('click', async e => {
+      if(confirm('最新の情報を取得してリストを更新します。\nブックマークが多いと時間がかかる場合があります。')){
+        if(isBusy) return;// 連打対策
+        isBusy = true;
+        await this.bookmark.reload();
+        isBusy = false;
         return true;
       }else{
         e.preventDefault();
@@ -153,13 +157,10 @@ export class BookmarkPanel {
     const active = item.available ? 'ssbm-active':'';
     const $li = document.createElement('li');
     const html = `
-    <input type="hidden" name="goods" value="${item.id}">
-    <input type="hidden" name="${item.id}_qty" value="1">
     <div class="ssbm-item-remove" title="削除"></div>
     <img class="ssbm-item-thumb" src="${item.image}">
     <a href="${item.url}" class="ssbm-item-name" title="${item.name}">${item.name}</a>
     <span class="ssbm-item-price ${active}">&yen;${formatNumber(item.price)}</span>
-    <span class="ssbm-item-cart" title="カートに入れる"></span>
     `;
     $li.setHTML(html, sanitizer);
   
@@ -167,35 +168,7 @@ export class BookmarkPanel {
     $li.querySelector('.ssbm-item-remove').addEventListener('click', async e=>{
       this.bookmark.remove(item);
     });
-
-    // カートに入れるボタン
-    $li.querySelector('.ssbm-item-cart').addEventListener('click', async e=>{
-      this.#addSingleItemToCart(e.target, item);
-    });  
     return $li;
   }
-  async #addSingleItemToCart($elem, id){
-    /*
-    $elem.classList.remove('ssbm-done');
-    try {
-      const url = '/catalog/cart/cart.aspx';
-      const data = new FormData();
-      data.append('goods', id);
-      data.append(id + '_qty', 1);
-      const response = await axios.post(url, data);
 
-      // カートに入れた動きをつける
-      if(response.status == 200){
-        $elem.classList.add('ssbm-done');
-      }
-
-      // カートページにいる場合はリロードする
-      if(location.href.includes(url)){
-        location.href = url;
-      }
-    } catch (e) {
-      console.error(e);
-    }
-    */
-  }
 }

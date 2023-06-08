@@ -47,11 +47,11 @@ class ItemScraper {
     return price;
   }
   getImage(){
-    return this.$content.querySelector('.product-gallery--image').dataset.zoom;
+    return this.$content.querySelector('.product-gallery--image img').src;
   }
   getAvailability(){
     // soldout表記が無い→available
-    const $item = this.$content.querySelector('.productitem__badge--soldout');
+    const $item = this.$content.querySelector('.product__badge--soldout');
     return $item === null;
   }
 }
