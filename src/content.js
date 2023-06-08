@@ -4,7 +4,7 @@ import '@/css/style.scss';
 
 import config from '@/modules/Config'
 import bookmark from '@/modules/Bookmark'
-import initTopage from '@/modules/TopPage'
+import TopPage from '@/modules/TopPage'
 import { BookmarkButton } from '@/modules/BookmarkButton'
 import { itemScraper, itemScraperGridItems } from '@/modules/ItemScraper'
 
@@ -18,7 +18,7 @@ async function main(){
 
   // toppage
   if(document.body.classList.contains('template-index')){
-    initTopage();
+    TopPage.init();
   }
 
   // header
