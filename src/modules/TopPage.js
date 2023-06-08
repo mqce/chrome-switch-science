@@ -1,12 +1,47 @@
 "use strict";
 
 import { BookmarkButton } from '@/modules/BookmarkButton'
+import { formatNumber } from '@/modules/Util'
+
+const sanitizer = new Sanitizer();// https://developer.mozilla.org/ja/docs/Web/API/Element/setHTML
 
 /*
   商品の価格とidがほしい
   → shopify plugin Pagefly のデータが必要
   → contents.jsからはwindowオブジェクトが取得できないのでembedから送ってもらう
 */
+export default async function initTopage(){
+  // 表示されている商品にお気に入りボタンを表示
+  const $items = document.querySelectorAll('.pf-product-form');
+  if($items){
+    const data = await getItemsDataFirstTime();
+    modifyItemDisplay($items, data);
+  }
+
+  // "LOAD MORE" で表示される商品にお気に入りボタンを表示
+  const $parents = document.querySelectorAll('[data-pf-type="ProductList"]');
+  if($parents){
+    // 複数のタブがある
+    $parents.forEach($parent => modifyItemDisplayAfterMutation($parent));
+  }
+}
+
+// 初回のデータ取得
+async function getItemsDataFirstTime(){
+  const jsonString = await embedJsAndRecievePageflyData();
+  const data = JSON.parse(jsonString);
+  return data;
+}
+
+// 二回目以降のデータ取得
+async function getItesmData(){
+  const jsonString = await requestPageflyData();
+  const data = JSON.parse(jsonString);
+  return data;
+}
+
+
+// 初回のデータ取得はembed.jsを埋め込んでレスポンスを待つ
 function embedJsAndRecievePageflyData(){
   // 埋め込む
   const script = document.createElement('script');
@@ -27,7 +62,7 @@ function embedJsAndRecievePageflyData(){
   });
 }
 
-/* shopify plugin：Pagefly のデータを取得する */
+// 都度データ取得
 function requestPageflyData(){
   // postMessage して data を受け取る
   return new Promise(resolve => {
@@ -44,64 +79,58 @@ function requestPageflyData(){
       'https://www.switch-science.com'
     );
   });
-
 }
 
-export default async function initTopage(){
-  const jsonString = await embedJsAndRecievePageflyData();
 
-  const $items = document.querySelectorAll('.pf-product-form');
-  if($items){
-    addButtons($items, jsonString);
-  }
 
-  const $parents = document.querySelectorAll('[data-pf-type="ProductList"]');
-  if($parents){
-    $parents.forEach($parent => addButtonsAfterMutation($parent));
-  }
+function parseItemData(data){
+  let item = null;
+  try{
+    item = {
+      id: data.variants[0].id,
+      name: data.title,
+      sku: data.handle,
+      price: data.variants[0].price / 100,
+      url: data.url,
+      image: data.featured_image,
+      available: data.variants[0].available
+    }
+  }catch(e){}
+  return item;
 }
 
 /*
-  トップページの商品一覧にブックマークボタンを表示する
+  トップページの商品一覧にブックマークボタンを表示
 */
-async function addButtons($items, jsonString){
-  // 価格とidを得るのに window.__pageflyProducts が必要
-  if(!jsonString) jsonString = await requestPageflyData();
-  const data = JSON.parse(jsonString)
-  console.log('PageflyData:', data);
+async function modifyItemDisplay($items, data){
   $items.forEach($item => {
     if($item.querySelector('.bookmark-button')){
       return;
     }
-    try{
-      const id = $item.dataset.productid;
-      const item = {
-        id: data[id].variants[0].id,
-        name: data[id].title,
-        sku: data[id].handle,
-        price: data[id].variants[0].price / 100,
-        url: data[id].url,
-        image: data[id].featured_image,
-        available: data[id].variants[0].available
-      }
+    const id = $item.dataset.productid;
+    const item = parseItemData(data[id]);
+    if(item){
+      showPrice($item, item);
       appendBookmarkButton($item, item);
-    }catch(e){}
+    }
   });
 }
 
-
-// 後から動的に追加される要素にボタンを追加
-function addButtonsAfterMutation($parent){
-  const observer = new MutationObserver(records => {
-    // observer.disconnect();
-    // 追加された商品にボタンを追加
-    const $items = $parent.querySelectorAll('.pf-product-form');
-    addButtons($items);
-  });
-  // DOM変更を監視
-  observer.observe($parent, {
-    childList: true,
-  });
+function showPrice($item, item){
+  const html_soldout = `<span class="productitem__badge productitem__badge--soldout" style="position:relative;top:-5px;">売り切れ</span>`;
+  const html_price = `
+  <div class="price productitem__price">
+    <div class="price__current price__current--emphasize">
+      <span class="money" style="font-size:1.375rem">&yen; ${formatNumber(item.price)}</span>
+    </div>
+  </div>
+  `;
+  const html = item.available ? html_price : html_soldout + html_price;
+  const $elem = document.createElement('div');
+  const $title = $item.querySelector('h3');
+  $elem.setHTML(html, sanitizer);
+  console.log($item,$elem,$title);
+  $item.querySelector('[data-pf-type="Column"]').insertBefore($elem, $title);
 }
 
 async function appendBookmarkButton($parent, item){
@@ -109,3 +138,25 @@ async function appendBookmarkButton($parent, item){
   const $button = await button.create();
   $parent.appendChild($button);
 }
+
+
+
+
+
+
+// 後から動的に追加される要素にボタンを追加
+function modifyItemDisplayAfterMutation($parent){
+  const observer = new MutationObserver(async (records) => {
+    // observer.disconnect();
+    // 追加された商品にボタンを追加
+    const $items = $parent.querySelectorAll('.pf-product-form');
+
+    const data = await getItesmData();
+    modifyItemDisplay($items, data);
+  });
+  // DOM変更を監視
+  observer.observe($parent, {
+    childList: true,
+  });
+}
+
