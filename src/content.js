@@ -12,9 +12,34 @@ window.addEventListener('DOMContentLoaded', () => {
   main();
 });
 
+function getOffsetTop($elem){
+  const rect = $elem.getBoundingClientRect();
+  const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+  return rect.top + scrollTop;
+}
+
+function setStickyHeader(){
+  const $header = document.querySelector('.site-header');
+  const offsetTop = getOffsetTop($header);
+  window.addEventListener('scroll', ()=>{
+    console.log(scrollY, offsetTop)
+    if(scrollY > offsetTop){
+      $header.classList.add('fixed');
+    }else{
+      $header.classList.remove('fixed');
+    }
+  });
+}
+
 async function main(){
   await config.load();
-  console.log(config.items);
+
+  if(config.items.smaller_font){
+    document.documentElement.style.fontSize = '0.875rem';
+  }
+  if(config.items.sticky_header){
+    setStickyHeader();
+  }
 
   // toppage
   if(document.body.classList.contains('template-index')){

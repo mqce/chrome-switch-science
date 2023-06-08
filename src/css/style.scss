@@ -1,3 +1,14 @@
+// スクロール追随ヘッダー
+.site-header.fixed{
+  position:fixed;
+  top:0;
+  width:100%;
+}
+
+.site-navigation .navmenu-link-depth-1{
+  padding: 4px 12px !important;
+  font-size:0.925rem !important;
+}
 
 /* お気に入りボタン */
 .product-main{
