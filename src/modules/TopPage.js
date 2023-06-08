@@ -66,11 +66,13 @@ function modifyItemDisplayAfterMutation($parent){
 }
 
 function showPrice($item, item){
-  // 価格を表示
+  const qty = item.quantity > 100 ? '100+' : item.quantity;
+  // 価格と在庫を表示
   let html = `
   <div class="price productitem__price">
     <div class="price__current price__current--emphasize">
       <span class="money" style="font-size:1.375rem">&yen; ${formatNumber(item.price)}</span>
+      <span class="qty" style="margin-left:8px;color:#999" title="${item.quantity}">(${qty})</span>
     </div>
   </div>
   `;
