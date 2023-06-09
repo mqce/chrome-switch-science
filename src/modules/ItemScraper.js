@@ -17,7 +17,6 @@ class ItemScraper {
         available : this.getAvailability(),
       };
     }catch(e){
-      console.error(e);
     }
     return item;
   }
@@ -83,6 +82,10 @@ class ItemScraperGridItems extends ItemScraper {
   }
   getImage(){
     return this.$content.querySelector('.productitem--image img')?.src;
+  }
+  getAvailability(){
+    const $item = this.$content.querySelector('.productitem__badge--soldout');
+    return $item === null;
   }
 }
 export function itemScraperGridItems($content){

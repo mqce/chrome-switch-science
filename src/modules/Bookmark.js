@@ -37,12 +37,10 @@ class Bookmark {
   // 全データを各ページから再取得する
   async reload(){
     
-    console.log('reload start');
     let list = await bookmarkData.load() || [];
     const promiseList = list.map(item => getItemDataFrom(item.url));
     const newList = await Promise.all(promiseList);
 
-    console.log('reload:', newList);
     await bookmarkData.save(newList);
     this.panel.update(newList);
   }

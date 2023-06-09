@@ -37,7 +37,6 @@ export class BookmarkButton {
       if(isBusy) return;// 連打対策
       isBusy = true;
 
-      console.log(this.item);
       if(this.isBookmarked){
         await bookmark.remove(this.item);
         $elem.classList.remove('active');

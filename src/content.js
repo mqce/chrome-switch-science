@@ -22,7 +22,6 @@ function setStickyHeader(){
   const $header = document.querySelector('.site-header');
   const offsetTop = getOffsetTop($header);
   window.addEventListener('scroll', ()=>{
-    console.log(scrollY, offsetTop)
     if(scrollY > offsetTop){
       $header.classList.add('fixed');
     }else{
