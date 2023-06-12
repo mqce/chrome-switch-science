@@ -3,7 +3,7 @@
 を使いやすくするchrome拡張(非公式)
 
 ## Chrome拡張のインストール
-[chrome store](https://chrome.google.com/webstore/detail/akizuki-daisuki/hjdhpmpkbmcckegkppojhmhbgbmnlbgd?hl=ja&authuser=0)
+[chrome store](https://chrome.google.com/webstore/detail/switch-science-unofficial/ebpjpmfcbhlpnmppdemhoaicbfdeaiam)
 
 ## Features
 ![feature1](images/1.png)
