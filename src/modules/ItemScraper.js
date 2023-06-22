@@ -20,6 +20,10 @@ class ItemScraper {
     }
     return item;
   }
+  cleanUrl(url){
+    const u = new URL(url);
+    return u.origin + u.pathname
+  }
   getName(){
     const text = this.$content.querySelector('.product-title').textContent;
     return text.trim();
@@ -46,7 +50,8 @@ class ItemScraper {
     return price;
   }
   getImage(){
-    return this.$content.querySelector('.product-gallery--image img').src;
+    const url = this.$content.querySelector('.product-gallery--image img').src;
+    return this.cleanUrl(url);
   }
   getAvailability(){
     // soldout表記が無い→available
@@ -81,7 +86,8 @@ class ItemScraperGridItems extends ItemScraper {
     return sku;
   }
   getImage(){
-    return this.$content.querySelector('.productitem--image img')?.src;
+    const url = this.$content.querySelector('.productitem--image img')?.src;
+    return this.cleanUrl(url);
   }
   getAvailability(){
     const $item = this.$content.querySelector('.productitem__badge--soldout');
