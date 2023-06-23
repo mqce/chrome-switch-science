@@ -52,7 +52,7 @@ const PageFly = {
         sku: data.handle,
         price: data.variants[0].price / 100,
         url: data.url,
-        image: cleanUrl(data.featured_image),
+        image: cleanUrl(data.media[0].preview_image.src),
         available: data.variants[0].available,
         quantity: parseQty(data.quantity[0])
       }
