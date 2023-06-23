@@ -14,7 +14,7 @@ const html = `
   <div class="ssbm-header-icon"></div>
   <div class="ssbm-header-length"></div>
 </header>
-<div class="ssbm-body">
+<dialog class="ssbm-body">
   <div>
     <div class="ssbm-list">
       <ul></ul>
@@ -24,10 +24,10 @@ const html = `
     </div>
     <footer>
       <button class="ssbm-clear-button">クリア</button>
-      <button class="ssbm-cart-button">更新</button>
+      <button class="ssbm-cart-button" autofocus>更新</button>
     </footer>
   </div>
-</div>
+</dialog>
 `;
 
 export class BookmarkPanel {
@@ -111,7 +111,12 @@ export class BookmarkPanel {
   #addEvents(){
     // パネル開閉
     this.$elem.querySelector('header').addEventListener('click', e => {
-      this.$body.classList.toggle('ssbm-is-active');
+      const dialog = this.$body;
+      if(dialog.open){
+        dialog.close();
+      }else{
+        dialog.show();
+      }
     });
 
     // リストをクリア
