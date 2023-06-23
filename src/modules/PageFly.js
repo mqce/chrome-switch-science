@@ -52,7 +52,7 @@ const PageFly = {
         sku: data.handle,
         price: data.variants[0].price / 100,
         url: data.url,
-        image: data.featured_image,
+        image: cleanUrl(data.featured_image),
         available: data.variants[0].available,
         quantity: parseQty(data.quantity[0])
       }
@@ -63,6 +63,11 @@ const PageFly = {
 
 export default PageFly;
 
+
+function cleanUrl(url){
+  const u = new URL(url);
+  return u.origin + u.pathname
+}
 
 // 初回のデータ取得
 // embed.jsを埋め込んでレスポンスを待つ
