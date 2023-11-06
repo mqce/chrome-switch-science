@@ -4,8 +4,6 @@ import PageFly from '@/modules/PageFly'
 import { BookmarkButton } from '@/modules/BookmarkButton'
 import { formatNumber } from '@/modules/Util'
 
-const sanitizer = new Sanitizer();// https://developer.mozilla.org/ja/docs/Web/API/Element/setHTML
-
 const TopPage = {
   /*
     商品の価格とidがほしい
@@ -82,7 +80,7 @@ function showPrice($item, item){
     html = html_soldout + html;
   }
   const $elem = document.createElement('div');
-  $elem.setHTML(html, sanitizer);
+  $elem.innerHTML = html;
 
   // タイトルの前に挿入
   const $title = $item.querySelector('h3');

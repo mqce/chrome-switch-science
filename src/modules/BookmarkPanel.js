@@ -3,7 +3,6 @@
 import Storage from './StorageLocal.js'
 import { formatNumber } from '@/modules/Util'
 
-const sanitizer = new Sanitizer();// https://developer.mozilla.org/ja/docs/Web/API/Element/setHTML
 const storage = new Storage();
 
 const CLASSNAME = 'ssbm';
@@ -63,7 +62,7 @@ export class BookmarkPanel {
     // DOMを初期化
     this.$elem = document.createElement('div');
     this.$elem.classList.add(CLASSNAME);
-    this.$elem.setHTML(html, sanitizer);
+    this.$elem.innerHTML = html;
     this.$body = this.$elem.querySelector('.ssbm-body');
     this.#addEvents();
   }
@@ -167,7 +166,7 @@ export class BookmarkPanel {
     <a href="${item.url}" class="ssbm-item-name" title="${item.name}">${item.name}</a>
     <span class="ssbm-item-price ${active}">&yen;${formatNumber(item.price)}</span>
     `;
-    $li.setHTML(html, sanitizer);
+    $li.innerHTML = html;
   
     // 削除ボタン
     $li.querySelector('.ssbm-item-remove').addEventListener('click', async e=>{

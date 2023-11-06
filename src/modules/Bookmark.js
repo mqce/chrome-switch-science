@@ -4,7 +4,6 @@ import axios from 'axios';
 import bookmarkData from '@/modules/BookmarkData'
 import { BookmarkPanel } from '@/modules/BookmarkPanel'
 import { itemScraper } from '@/modules/ItemScraper'
-const sanitizer = new Sanitizer();// https://developer.mozilla.org/ja/docs/Web/API/Element/setHTML
 
 class Bookmark {
   constructor() {
@@ -52,7 +51,7 @@ async function getItemDataFrom(url){
   if(response.status == 200){
     const html = response.data;
     const $tmp = document.createElement('div');
-    $tmp.setHTML(html, sanitizer);
+    $tmp.innerHTML = html;
 
     const $item = $tmp.querySelector('.product--container');
     item = itemScraper($item);
