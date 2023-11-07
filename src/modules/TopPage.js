@@ -31,7 +31,7 @@ export default TopPage;
 
 
 // 初期に表示されている商品にブックマークボタンを表示
-async function modifyItemDisplay($items, data){
+function modifyItemDisplay($items, data){
   $items.forEach($item => {
     if($item.querySelector('.bookmark-button')){
       return;

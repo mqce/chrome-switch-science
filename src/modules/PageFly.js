@@ -44,19 +44,16 @@ const PageFly = {
       const arr = qtyData.split(':');
       return parseInt(arr[1]);
     }
-    let item = null;
-    try{
-      item = {
-        id: data.variants[0].id,
-        name: data.title,
-        sku: data.handle,
-        price: data.variants[0].price / 100,
-        url: data.url,
-        image: cleanUrl(data.media[0].preview_image.src),
-        available: data.variants[0].available,
-        quantity: parseQty(data.quantity[0])
-      }
-    }catch(e){}
+    const item = {
+      id: data.variants[0].id,
+      name: data.title,
+      sku: data.handle,
+      price: data.variants[0].price / 100,
+      url: data.url,
+      image: cleanUrl(data.media[0].preview_image.src),
+      available: data.variants[0].available,
+      quantity: parseQty(data.quantity[0])
+    }
     return item;
   }
 };
@@ -65,7 +62,7 @@ export default PageFly;
 
 
 function cleanUrl(url){
-  const u = new URL(url);
+  const u = new URL('https://' + url);
   return u.origin + u.pathname
 }
 
